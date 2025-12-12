@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, startTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Search, MapPin, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 
@@ -55,31 +55,6 @@ const slides = {
   ],
 };
 
-const translations = {
-  fr: {
-    searchPlaceholder: 'Rechercher une propriété...',
-    selectCity: 'Sélectionner Ville',
-    searchButton: 'Rechercher',
-    cities: {
-      casablanca: 'Casablanca',
-      dakar: 'Dakar',
-      abidjan: 'Abidjan',
-      lagos: 'Lagos',
-    },
-  },
-  en: {
-    searchPlaceholder: 'Search for a property...',
-    selectCity: 'Select City',
-    searchButton: 'Search',
-    cities: {
-      casablanca: 'Casablanca',
-      dakar: 'Dakar',
-      abidjan: 'Abidjan',
-      lagos: 'Lagos',
-    },
-  },
-};
-
 export default function HeroSlider() {
   const { language } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -87,7 +62,6 @@ export default function HeroSlider() {
   const prevLanguageRef = useRef(language);
 
   const currentSlides = slides[language];
-  const t = translations[language];
 
   useEffect(() => {
     const timer = setInterval(() => {
