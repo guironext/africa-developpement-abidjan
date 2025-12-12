@@ -2,47 +2,104 @@
 
 import { motion } from 'framer-motion';
 import { Home, TrendingUp, Shield, Users, Handshake, MapPin, ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
-const services = [
-  {
-    icon: Home,
-    title: 'Achat & Vente',
-    description: 'Accompagnement complet dans vos transactions immobilières avec expertise et transparence.',
-    color: 'from-[#1a4d3e] to-[#2d7a5f]',
+const servicesData = {
+  fr: [
+    {
+      icon: Home,
+      title: 'Achat & Vente',
+      description: 'Accompagnement complet dans vos transactions immobilières avec expertise et transparence.',
+      color: 'from-[#1a4d3e] to-[#2d7a5f]',
+    },
+    {
+      icon: TrendingUp,
+      title: 'Investissement',
+      description: 'Conseils stratégiques pour maximiser vos rendements immobiliers en Afrique.',
+      color: 'from-[#2d7a5f] to-[#1a4d3e]',
+    },
+    {
+      icon: Shield,
+      title: 'Gestion de Patrimoine',
+      description: 'Services de gestion professionnelle pour votre portefeuille immobilier.',
+      color: 'from-[#1a4d3e] to-[#2d7a5f]',
+    },
+    {
+      icon: Users,
+      title: 'Consultation',
+      description: 'Expertise et conseils personnalisés pour vos projets immobiliers.',
+      color: 'from-[#2d7a5f] to-[#1a4d3e]',
+    },
+    {
+      icon: Handshake,
+      title: 'Location',
+      description: 'Gestion complète de vos biens en location avec suivi professionnel.',
+      color: 'from-[#1a4d3e] to-[#2d7a5f]',
+    },
+    {
+      icon: MapPin,
+      title: 'Évaluation',
+      description: 'Expertise et évaluation précise de vos biens immobiliers.',
+      color: 'from-[#2d7a5f] to-[#1a4d3e]',
+    },
+  ],
+  en: [
+    {
+      icon: Home,
+      title: 'Buy & Sell',
+      description: 'Complete support in your real estate transactions with expertise and transparency.',
+      color: 'from-[#1a4d3e] to-[#2d7a5f]',
+    },
+    {
+      icon: TrendingUp,
+      title: 'Investment',
+      description: 'Strategic advice to maximize your real estate returns in Africa.',
+      color: 'from-[#2d7a5f] to-[#1a4d3e]',
+    },
+    {
+      icon: Shield,
+      title: 'Wealth Management',
+      description: 'Professional management services for your real estate portfolio.',
+      color: 'from-[#1a4d3e] to-[#2d7a5f]',
+    },
+    {
+      icon: Users,
+      title: 'Consultation',
+      description: 'Expertise and personalized advice for your real estate projects.',
+      color: 'from-[#2d7a5f] to-[#1a4d3e]',
+    },
+    {
+      icon: Handshake,
+      title: 'Rental',
+      description: 'Complete management of your rental properties with professional follow-up.',
+      color: 'from-[#1a4d3e] to-[#2d7a5f]',
+    },
+    {
+      icon: MapPin,
+      title: 'Valuation',
+      description: 'Expertise and accurate valuation of your real estate properties.',
+      color: 'from-[#2d7a5f] to-[#1a4d3e]',
+    },
+  ],
+};
+
+const translations = {
+  fr: {
+    title: 'Solutions Complètes',
+    subtitle: 'Des solutions complètes pour tous vos besoins immobiliers en Afrique',
+    learnMore: 'En savoir plus',
   },
-  {
-    icon: TrendingUp,
-    title: 'Investissement',
-    description: 'Conseils stratégiques pour maximiser vos rendements immobiliers en Afrique.',
-    color: 'from-[#2d7a5f] to-[#1a4d3e]',
+  en: {
+    title: 'Complete Solutions',
+    subtitle: 'Complete solutions for all your real estate needs in Africa',
+    learnMore: 'Learn more',
   },
-  {
-    icon: Shield,
-    title: 'Gestion de Patrimoine',
-    description: 'Services de gestion professionnelle pour votre portefeuille immobilier.',
-    color: 'from-[#1a4d3e] to-[#2d7a5f]',
-  },
-  {
-    icon: Users,
-    title: 'Consultation',
-    description: 'Expertise et conseils personnalisés pour vos projets immobiliers.',
-    color: 'from-[#2d7a5f] to-[#1a4d3e]',
-  },
-  {
-    icon: Handshake,
-    title: 'Location',
-    description: 'Gestion complète de vos biens en location avec suivi professionnel.',
-    color: 'from-[#1a4d3e] to-[#2d7a5f]',
-  },
-  {
-    icon: MapPin,
-    title: 'Évaluation',
-    description: 'Expertise et évaluation précise de vos biens immobiliers.',
-    color: 'from-[#2d7a5f] to-[#1a4d3e]',
-  },
-];
+};
 
 export default function ServicesSection() {
+  const { language } = useLanguage();
+  const services = servicesData[language];
+  const t = translations[language];
   return (
     <section id="services" className="py-24 md:py-32 flex flex-col items-center gap-y-14 bg-transparent relative">
       {/* Decorative Background Elements */}
@@ -67,7 +124,7 @@ export default function ServicesSection() {
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-orange-400"
             style={{ marginBottom: '50px', marginTop: '50px' }}
           >
-            Solutions Complètes
+            {t.title}
           </motion.h2>
           
           <motion.p
@@ -78,7 +135,7 @@ export default function ServicesSection() {
             className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto text-center leading-relaxed px-4 mb-10"
             style={{ marginBottom: '50px' }}
           >
-            Des solutions complètes pour tous vos besoins immobiliers en Afrique
+            {t.subtitle}
           </motion.p>
         </motion.div>
 
@@ -123,7 +180,7 @@ export default function ServicesSection() {
                     whileHover={{ opacity: 1, x: 0 }}
                     className="flex items-center text-[#d4af37] font-semibold text-sm md:text-base group-hover:gap-2 transition-all duration-300"
                   >
-                    <span>En savoir plus</span>
+                    <span>{t.learnMore}</span>
                     <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                   </motion.div>
                 </div>

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Pause, Play, Square } from 'lucide-react';
 import { useEffect, useState, useRef, startTransition } from 'react';
 import Image from 'next/image';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 interface ImageSlideshowDialogProps {
   images: { image: string }[];
@@ -18,11 +19,44 @@ export default function ImageSlideshowDialog({
   onClose,
   initialIndex = 0,
 }: ImageSlideshowDialogProps) {
+  const { language } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isPlaying, setIsPlaying] = useState(true);
   const onCloseRef = useRef(onClose);
   const prevIsOpenRef = useRef(isOpen);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Translations
+  const translations = {
+    fr: {
+      close: 'Fermer',
+      closeGallery: 'Fermer la galerie',
+      pauseSlideshow: 'Mettre en pause',
+      playSlideshow: 'Lire',
+      stopSlideshow: 'Arrêter',
+      previousImage: 'Image précédente',
+      nextImage: 'Image suivante',
+      closeEsc: 'Fermer (ESC)',
+      pauseSpace: 'Pause (Espace)',
+      playSpace: 'Lire (Espace)',
+      stopClose: 'Arrêter (Fermer)',
+    },
+    en: {
+      close: 'Close',
+      closeGallery: 'Close Gallery',
+      pauseSlideshow: 'Pause slideshow',
+      playSlideshow: 'Play slideshow',
+      stopSlideshow: 'Stop and close slideshow',
+      previousImage: 'Previous image',
+      nextImage: 'Next image',
+      closeEsc: 'Close (ESC)',
+      pauseSpace: 'Pause (Space)',
+      playSpace: 'Play (Space)',
+      stopClose: 'Stop (Close)',
+    },
+  };
+
+  const t = translations[language];
 
   // Keep the ref updated with the latest onClose function
   useEffect(() => {
@@ -172,8 +206,8 @@ export default function ImageSlideshowDialog({
                   onClose();
                 }}
                 className="absolute top-4 right-4 z-60 p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-colors shadow-lg border border-white/20 cursor-pointer"
-                aria-label="Close gallery"
-                title="Close (ESC)"
+                aria-label={t.closeGallery}
+                title={t.closeEsc}
                 type="button"
                 style={{ cursor: 'pointer', transition: 'all 0.3s ease', padding: '5px' }}
               >
@@ -189,12 +223,12 @@ export default function ImageSlideshowDialog({
                   onClose();
                 }}
                 className="absolute top-4 left-4 z-60 px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg text-white hover:bg-white/20 transition-colors shadow-lg border border-white/20 flex items-center gap-2 text-sm font-medium cursor-pointer"
-                aria-label="Close gallery"
+                aria-label={t.closeGallery}
                 type="button"
                 style={{ cursor: 'pointer', transition: 'all 0.3s ease', padding: '5px' }}
               >
                 <X size={18} />
-                <span>Close</span>
+                <span>{t.close}</span>
               </motion.button>
 
               {/* Play/Pause and Stop Buttons - Top Center (Always Visible) */}
@@ -208,8 +242,8 @@ export default function ImageSlideshowDialog({
                       togglePlayPause();
                     }}
                     className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-colors shadow-lg border border-white/20 cursor-pointer"
-                    aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
-                    title={isPlaying ? 'Pause (Space)' : 'Play (Space)'}
+                    aria-label={isPlaying ? t.pauseSlideshow : t.playSlideshow}
+                    title={isPlaying ? t.pauseSpace : t.playSpace}
                     type="button"
                   >
                     {isPlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" />}
@@ -222,8 +256,8 @@ export default function ImageSlideshowDialog({
                       onClose();
                     }}
                     className="p-3 bg-red-500/80 backdrop-blur-md rounded-full text-white hover:bg-red-600 transition-colors shadow-lg border border-white/20 cursor-pointer"
-                    aria-label="Stop and close slideshow"
-                    title="Stop (Close)"
+                    aria-label={t.stopSlideshow}
+                    title={t.stopClose}
                     type="button"
                   >
                     <Square size={20} fill="currentColor" />
@@ -247,12 +281,12 @@ export default function ImageSlideshowDialog({
                       onClose();
                     }}
                     className="pointer-events-auto px-6 py-3 bg-black/80 backdrop-blur-md rounded-full text-white hover:bg-black/90 transition-colors shadow-xl border border-white/30 font-medium flex items-center gap-2 cursor-pointer"
-                    aria-label="Close gallery"
+                    aria-label={t.closeGallery}
                     type="button"
                     style={{ cursor: 'pointer', transition: 'all 0.3s ease', padding: '5px' }}
                   >
                     <X size={20} />
-                    <span>Close Gallery</span>
+                    <span>{t.closeGallery}</span>
                   </motion.button>
                 </motion.div>
                 <AnimatePresence mode="wait" initial={false}>
@@ -286,7 +320,7 @@ export default function ImageSlideshowDialog({
                       whileTap={{ scale: 0.9 }}
                       onClick={goToPrevious}
                       className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-colors shadow-lg border border-white/20 z-40"
-                      aria-label="Previous image"
+                      aria-label={t.previousImage}
                     >
                       <ChevronLeft size={28} />
                     </motion.button>
@@ -296,7 +330,7 @@ export default function ImageSlideshowDialog({
                       whileTap={{ scale: 0.9 }}
                       onClick={goToNext}
                       className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-colors shadow-lg border border-white/20 z-40"
-                      aria-label="Next image"
+                      aria-label={t.nextImage}
                     >
                       <ChevronRight size={28} />
                     </motion.button>
@@ -316,8 +350,8 @@ export default function ImageSlideshowDialog({
                           togglePlayPause();
                         }}
                         className="p-3 bg-[#d4af37]/90 backdrop-blur-md rounded-full text-[#1a4d3e] hover:bg-[#d4af37] transition-colors shadow-xl border-2 border-white/30 font-bold"
-                        aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
-                        title={isPlaying ? 'Pause (Space)' : 'Play (Space)'}
+                        aria-label={isPlaying ? t.pauseSlideshow : t.playSlideshow}
+                        title={isPlaying ? t.pauseSpace : t.playSpace}
                         type="button"
                         style={{ cursor: 'pointer', transition: 'all 0.3s ease', padding: '5px' }}
                       >
@@ -331,8 +365,8 @@ export default function ImageSlideshowDialog({
                           onClose();
                         }}
                         className="p-3 bg-red-500/90 backdrop-blur-md rounded-full text-white hover:bg-red-600 transition-colors shadow-xl border-2 border-white/30 font-bold"
-                        aria-label="Stop and close slideshow"
-                        title="Stop (Close)"
+                        aria-label={t.stopSlideshow}
+                        title={t.stopClose}
                         type="button"
                         style={{ cursor: 'pointer', transition: 'all 0.3s ease', padding: '5px' }}
                       >
@@ -408,11 +442,11 @@ export default function ImageSlideshowDialog({
                     onClose();
                   }}
                   className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md rounded-lg text-white hover:bg-white/20 transition-colors shadow-lg border border-white/20 font-medium cursor-pointer"
-                  aria-label="Close gallery"
+                  aria-label={t.closeGallery}
                   type="button"
                 >
                   <X size={20} />
-                  <span>Close Gallery</span>
+                  <span>{t.closeGallery}</span>
                 </motion.button>
               </motion.div>
             </motion.div>

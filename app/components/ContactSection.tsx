@@ -4,14 +4,50 @@ import { motion } from 'framer-motion';
 import { Send, MessageSquare } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 export default function ContactSection() {
+  const { language } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: '',
   });
+
+  // Translations
+  const translations = {
+    fr: {
+      title: 'Contactez-Nous',
+      description: 'Nous sommes là pour répondre à toutes vos questions et vous accompagner dans vos projets immobiliers',
+      sendMessage: 'Envoyez-nous un message',
+      fullName: 'Nom Complet',
+      fullNamePlaceholder: 'Votre nom complet',
+      email: 'Email',
+      emailPlaceholder: 'votre@email.com',
+      phone: 'Téléphone',
+      phonePlaceholder: '+212 6XX XXX XXX',
+      message: 'Message',
+      messagePlaceholder: 'Votre message...',
+      sendButton: 'Envoyer le Message',
+    },
+    en: {
+      title: 'Contact Us',
+      description: 'We are here to answer all your questions and support you in your real estate projects',
+      sendMessage: 'Send us a message',
+      fullName: 'Full Name',
+      fullNamePlaceholder: 'Your full name',
+      email: 'Email',
+      emailPlaceholder: 'your@email.com',
+      phone: 'Phone',
+      phonePlaceholder: '+212 6XX XXX XXX',
+      message: 'Message',
+      messagePlaceholder: 'Your message...',
+      sendButton: 'Send Message',
+    },
+  };
+
+  const t = translations[language];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +85,7 @@ export default function ContactSection() {
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-orange-400 mb-6"
             style={{  marginTop: '50px' }}
           >
-            Contactez-Nous
+            {t.title}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -59,7 +95,7 @@ export default function ContactSection() {
             className="text-lg md:text-xl text-gray-300  mx-auto leading-relaxed"
             style={{ marginBottom: '20px', marginTop: '20px' }}
           >
-            Nous sommes là pour répondre à toutes vos questions et vous accompagner dans vos projets immobiliers
+            {t.description}
           </motion.p>
         </motion.div>
 
@@ -120,12 +156,12 @@ export default function ContactSection() {
                 <div className="p-3 rounded-xl bg-[#d4af37]/20 border border-[#d4af37]/30">
                   <MessageSquare className="text-[#d4af37]" size={24} />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Envoyez-nous un message</h3>
+                <h3 className="text-2xl font-bold text-white">{t.sendMessage}</h3>
               </div>
 
               <div style={{ padding: '10px' }}>
                 <label htmlFor="name" className="block text-lg font-semibold text-gray-200 mb-2">
-                  Nom Complet
+                  {t.fullName}
                 </label>
                 <input
                   type="text"
@@ -133,7 +169,7 @@ export default function ContactSection() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-[#d4af37] transition-all backdrop-blur-sm"
-                  placeholder="Votre nom complet"
+                  placeholder={t.fullNamePlaceholder}
                   style={{ padding: '10px' }}
                   required
                 />
@@ -141,7 +177,7 @@ export default function ContactSection() {
 
               <div style={{ padding: '10px' }}>
                 <label htmlFor="email" className="block text-lg font-semibold text-gray-200 mb-2">
-                  Email
+                  {t.email}
                 </label>
                 <input
                   type="email"
@@ -149,7 +185,7 @@ export default function ContactSection() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-[#d4af37] transition-all backdrop-blur-sm"
-                  placeholder="votre@email.com"
+                  placeholder={t.emailPlaceholder}
                   style={{ padding: '10px' }}
                   required
                 />
@@ -157,7 +193,7 @@ export default function ContactSection() {
 
               <div style={{ padding: '10px' }}>
                 <label htmlFor="phone" className="block text-lg font-semibold text-gray-200 mb-2">
-                  Téléphone
+                  {t.phone}
                 </label>
                 <input
                   type="tel"
@@ -165,7 +201,7 @@ export default function ContactSection() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-[#d4af37] transition-all backdrop-blur-sm"
-                  placeholder="+212 6XX XXX XXX"
+                  placeholder={t.phonePlaceholder}
                   style={{ padding: '10px' }}
                   required
                 />
@@ -173,7 +209,7 @@ export default function ContactSection() {
 
               <div style={{ padding: '10px' }}>
                 <label htmlFor="message" className="block text-lg font-semibold text-gray-200 mb-2">
-                  Message
+                  {t.message}
                 </label>
                 <textarea
                   id="message"
@@ -181,7 +217,7 @@ export default function ContactSection() {
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   rows={5}
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:border-[#d4af37] transition-all resize-none backdrop-blur-sm"
-                  placeholder="Votre message..."
+                  placeholder={t.messagePlaceholder}
                   style={{ padding: '10px' }}
                   required
                 />
@@ -194,7 +230,7 @@ export default function ContactSection() {
                 className="w-full bg-linear-to-r from-[#1a4d3e] to-[#2d7a5f] hover:from-[#2d7a5f] hover:to-[#1a4d3e] text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl group"
                 style={{ padding: '10px' }}
               >
-                <span>Envoyer le Message</span>
+                <span>{t.sendButton}</span>
                 <Send size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
               </motion.button>
             </div>

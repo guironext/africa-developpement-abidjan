@@ -3,38 +3,104 @@
 import { motion } from 'framer-motion';
 import { Award, Target, Heart, Globe, Shield, Lightbulb, Leaf } from 'lucide-react';
 import Image from 'next/image';
-
-const stats = [
-  { icon: Award, value: '10+', label: 'Années d\'Expérience', color: 'from-[#1a4d3e] to-[#2d7a5f]' },
-  { icon: Target, value: '500+', label: 'Propriétés Vendues', color: 'from-[#2d7a5f] to-[#1a4d3e]' },
-  { icon: Heart, value: '1000+', label: 'Clients Satisfaits', color: 'from-[#1a4d3e] to-[#2d7a5f]' },
-  { icon: Globe, value: '15+', label: 'Pays Desservis', color: 'from-[#2d7a5f] to-[#1a4d3e]' },
-];
-
-const values = [
-  {
-    icon: Shield,
-    title: 'Intégrité',
-    description: 'Nous croyons en la transparence et l\'honnêteté dans toutes nos transactions.',
-  },
-  {
-    icon: Award,
-    title: 'Qualité',
-    description: 'Nous nous engageons à offrir des services et des constructions de la plus haute qualité.',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Innovation',
-    description: 'Nous restons à l\'affût des nouvelles tendances et technologies pour améliorer nos services.',
-  },
-  {
-    icon: Leaf,
-    title: 'Responsabilité sociale',
-    description: 'Nous sommes conscients de notre impact sur la communauté et l\'environnement, et nous agissons en conséquence.',
-  },
-];
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 export default function AboutSection() {
+  const { language } = useLanguage();
+
+  // Translations
+  const translations = {
+    fr: {
+      title: 'QUI SOMMES NOUS ?',
+      description1: (
+        <>
+          La <strong className="text-orange-400">SCI SAD</strong> est une filiale d&apos;une holding prestigieuse, <strong className="text-orange-400">PLANETE SOLUTION GROUP (PS GROUP)</strong>, reconnue pour son expertise dans le secteur immobilier à travers l&apos;Europe.
+        </>
+      ),
+      description2: 'Forte d\'une expérience solide et de projets réussis dans divers pays, notre structure s\'engage à apporter une valeur ajoutée unique à la Côte d\'Ivoire. Nous nous positionnons comme un acteur clé, capable d\'offrir des solutions innovantes et sur mesure aux besoins des acteurs locaux.',
+      description3: 'Notre approche repose sur une connaissance approfondie du marché ivoirien, couplée à des pratiques éprouvées en matière de constructions, d\'achat et de gestion immobilière. Nous croyons fermement que l\'innovation est essentielle pour répondre aux défis actuels et futurs du secteur.',
+      description4: 'C\'est pourquoi, nous mettons en œuvre des alternatives créatives et durables.',
+      stats: [
+        { icon: Award, value: '10+', label: 'Années d\'Expérience', color: 'from-[#1a4d3e] to-[#2d7a5f]' },
+        { icon: Target, value: '500+', label: 'Propriétés Vendues', color: 'from-[#2d7a5f] to-[#1a4d3e]' },
+        { icon: Heart, value: '1000+', label: 'Clients Satisfaits', color: 'from-[#1a4d3e] to-[#2d7a5f]' },
+        { icon: Globe, value: '15+', label: 'Pays Desservis', color: 'from-[#2d7a5f] to-[#1a4d3e]' },
+      ],
+      missionTitle: 'NOTRE MISSION',
+      missionText: 'Chez la SCI SAD, notre mission est de transformer vos rêves immobiliers en réalité. Nous nous engageons à offrir des services de haute qualité dans la construction, l\'achat, la vente et la location gérance de biens immobiliers. Notre objectif est de contribuer au développement durable et à l\'urbanisation harmonieuse de la Côte d\'Ivoire.',
+      valuesTitle: 'Nos Valeurs',
+      values: [
+        {
+          icon: Shield,
+          title: 'Intégrité',
+          description: 'Nous croyons en la transparence et l\'honnêteté dans toutes nos transactions.',
+        },
+        {
+          icon: Award,
+          title: 'Qualité',
+          description: 'Nous nous engageons à offrir des services et des constructions de la plus haute qualité.',
+        },
+        {
+          icon: Lightbulb,
+          title: 'Innovation',
+          description: 'Nous restons à l\'affût des nouvelles tendances et technologies pour améliorer nos services.',
+        },
+        {
+          icon: Leaf,
+          title: 'Responsabilité sociale',
+          description: 'Nous sommes conscients de notre impact sur la communauté et l\'environnement, et nous agissons en conséquence.',
+        },
+      ],
+      perspectivesTitle: 'PERSPECTIVES',
+      perspectivesText: 'La Côte d\'Ivoire est en pleine croissance et représente un marché immobilier dynamique. Avec l\'urbanisation rapide et l\'augmentation de la population, les opportunités d\'investissements sont nombreuses. Nous sommes déterminés à être à la pointe de cette évolution, en répondant aux besoins croissants en matière de logements, de locaux commerciaux et d\'infrastructures industrielles.',
+    },
+    en: {
+      title: 'WHO ARE WE?',
+      description1: (
+        <>
+          <strong className="text-orange-400">SCI SAD</strong> is a subsidiary of a prestigious holding company, <strong className="text-orange-400">PLANETE SOLUTION GROUP (PS GROUP)</strong>, recognized for its expertise in the real estate sector across Europe.
+        </>
+      ),
+      description2: 'With solid experience and successful projects in various countries, our structure is committed to bringing unique added value to Côte d\'Ivoire. We position ourselves as a key player, capable of offering innovative and tailored solutions to the needs of local stakeholders.',
+      description3: 'Our approach is based on an in-depth knowledge of the Ivorian market, combined with proven practices in construction, purchase and real estate management. We firmly believe that innovation is essential to meet current and future challenges in the sector.',
+      description4: 'That is why we implement creative and sustainable alternatives.',
+      stats: [
+        { icon: Award, value: '10+', label: 'Years of Experience', color: 'from-[#1a4d3e] to-[#2d7a5f]' },
+        { icon: Target, value: '500+', label: 'Properties Sold', color: 'from-[#2d7a5f] to-[#1a4d3e]' },
+        { icon: Heart, value: '1000+', label: 'Satisfied Clients', color: 'from-[#1a4d3e] to-[#2d7a5f]' },
+        { icon: Globe, value: '15+', label: 'Countries Served', color: 'from-[#2d7a5f] to-[#1a4d3e]' },
+      ],
+      missionTitle: 'OUR MISSION',
+      missionText: 'At SCI SAD, our mission is to turn your real estate dreams into reality. We are committed to providing high-quality services in construction, purchase, sale and rental management of real estate properties. Our goal is to contribute to sustainable development and harmonious urbanization of Côte d\'Ivoire.',
+      valuesTitle: 'Our Values',
+      values: [
+        {
+          icon: Shield,
+          title: 'Integrity',
+          description: 'We believe in transparency and honesty in all our transactions.',
+        },
+        {
+          icon: Award,
+          title: 'Quality',
+          description: 'We are committed to providing services and constructions of the highest quality.',
+        },
+        {
+          icon: Lightbulb,
+          title: 'Innovation',
+          description: 'We stay abreast of new trends and technologies to improve our services.',
+        },
+        {
+          icon: Leaf,
+          title: 'Social Responsibility',
+          description: 'We are aware of our impact on the community and the environment, and we act accordingly.',
+        },
+      ],
+      perspectivesTitle: 'PERSPECTIVES',
+      perspectivesText: 'Côte d\'Ivoire is experiencing strong growth and represents a dynamic real estate market. With rapid urbanization and population growth, investment opportunities are numerous. We are determined to be at the forefront of this evolution, meeting the growing needs for housing, commercial premises and industrial infrastructure.',
+    },
+  };
+
+  const t = translations[language];
   return (
     <section id="about" className="py-24 md:py-32 flex flex-col items-center gap-y-14 bg-transparent relative">
       {/* Decorative Background Elements */}
@@ -67,7 +133,7 @@ export default function AboutSection() {
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-orange-400 mb-6"
             style={{ marginBottom: '50px', marginTop: '50px' }}
           >
-            QUI SOMMES NOUS ?
+            {t.title}
           </motion.h2>
           
           {/* Company Image */}
@@ -99,18 +165,18 @@ export default function AboutSection() {
           >
             <div className="space-y-4">
               <p style={{ textAlign: 'justify' }}>
-                La <strong className="text-orange-400">SCI SAD</strong> est une filiale d&apos;une holding prestigieuse, <strong className="text-orange-400">PLANETE SOLUTION GROUP (PS GROUP)</strong>, reconnue pour son expertise dans le secteur immobilier à travers l&apos;Europe.
+                {t.description1}
               </p>
               <p style={{ textAlign: 'justify' }}>
-                Forte d&apos;une expérience solide et de projets réussis dans divers pays, notre structure s&apos;engage à apporter une valeur ajoutée unique à la Côte d&apos;Ivoire. Nous nous positionnons comme un acteur clé, capable d&apos;offrir des solutions innovantes et sur mesure aux besoins des acteurs locaux.
+                {t.description2}
               </p>
             </div>
             <div className="space-y-4">
               <p style={{ textAlign: 'justify' }}>
-                Notre approche repose sur une connaissance approfondie du marché ivoirien, couplée à des pratiques éprouvées en matière de constructions, d&apos;achat et de gestion immobilière. Nous croyons fermement que l&apos;innovation est essentielle pour répondre aux défis actuels et futurs du secteur.
+                {t.description3}
               </p>
               <p className="text-orange-400 font-semibold" style={{ textAlign: 'justify' }}>
-                C&apos;est pourquoi, nous mettons en œuvre des alternatives créatives et durables.
+                {t.description4}
               </p>
             </div>
           </motion.div>
@@ -118,7 +184,7 @@ export default function AboutSection() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-20 justify-items-center">
-          {stats.map((stat, index) => (
+          {t.stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 50 }}
@@ -221,7 +287,7 @@ export default function AboutSection() {
                   transition={{ duration: 0.6 }}
                   className="text-3xl md:text-4xl font-bold mb-6 text-white"
                 >
-                  NOTRE MISSION
+                  {t.missionTitle}
                 </motion.h3>
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
@@ -230,7 +296,7 @@ export default function AboutSection() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-lg md:text-xl text-gray-100 leading-relaxed"
                 >
-                  Chez la SCI SAD, notre mission est de transformer vos rêves immobiliers en réalité. Nous nous engageons à offrir des services de haute qualité dans la construction, l&apos;achat, la vente et la location gérance de biens immobiliers. Notre objectif est de contribuer au développement durable et à l&apos;urbanisation harmonieuse de la Côte d&apos;Ivoire.
+                  {t.missionText}
                 </motion.p>
               </div>
             </div>
@@ -248,12 +314,12 @@ export default function AboutSection() {
           <h3 className="text-3xl md:text-4xl font-bold text-center text-orange-400 mb-12"
           style={{ padding: '50px' }}
           >
-            Nos Valeurs
+            {t.valuesTitle}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
           style={{ padding: '50px' }}
           >
-            {values.map((value, index) => (
+            {t.values.map((value, index) => (
               <motion.div
                 key={value.title}
                 initial={{ opacity: 0, y: 30 }}
@@ -309,7 +375,7 @@ export default function AboutSection() {
                   transition={{ duration: 0.6 }}
                   className="text-3xl md:text-4xl font-bold mb-6 text-white"
                 >
-                  PERSPECTIVES
+                  {t.perspectivesTitle}
                 </motion.h3>
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
@@ -318,7 +384,7 @@ export default function AboutSection() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-lg md:text-xl text-gray-100 leading-relaxed"
                 >
-                  La Côte d&apos;Ivoire est en pleine croissance et représente un marché immobilier dynamique. Avec l&apos;urbanisation rapide et l&apos;augmentation de la population, les opportunités d&apos;investissements sont nombreuses. Nous sommes déterminés à être à la pointe de cette évolution, en répondant aux besoins croissants en matière de logements, de locaux commerciaux et d&apos;infrastructures industrielles.
+                  {t.perspectivesText}
                 </motion.p>
               </div>
               <motion.div

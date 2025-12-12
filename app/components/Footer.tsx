@@ -3,9 +3,55 @@
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import Image from 'next/image';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 export default function Footer() {
+  const { language } = useLanguage();
   const currentYear = new Date().getFullYear();
+
+  // Translations
+  const translations = {
+    fr: {
+      company: 'Entreprise',
+      legal: 'Légal',
+      followUs: 'Suivez-Nous',
+      rightsReserved: 'Tous droits réservés.',
+      links: {
+        company: [
+          { name: 'À Propos', href: '#about' },
+          { name: 'Nos Services', href: '#services' },
+          { name: 'Propriétés', href: '#properties' },
+          { name: 'Contact', href: '#contact' },
+        ],
+        legal: [
+          { name: 'Politique de Confidentialité', href: '#' },
+          { name: 'Conditions d\'Utilisation', href: '#' },
+          { name: 'Mentions Légales', href: '#' },
+        ],
+      },
+    },
+    en: {
+      company: 'Company',
+      legal: 'Legal',
+      followUs: 'Follow Us',
+      rightsReserved: 'All rights reserved.',
+      links: {
+        company: [
+          { name: 'About', href: '#about' },
+          { name: 'Our Services', href: '#services' },
+          { name: 'Properties', href: '#properties' },
+          { name: 'Contact', href: '#contact' },
+        ],
+        legal: [
+          { name: 'Privacy Policy', href: '#' },
+          { name: 'Terms of Use', href: '#' },
+          { name: 'Legal Notice', href: '#' },
+        ],
+      },
+    },
+  };
+
+  const t = translations[language];
 
   const socialLinks = [
     { icon: Facebook, href: '#', label: 'Facebook' },
@@ -13,20 +59,6 @@ export default function Footer() {
     { icon: Instagram, href: '#', label: 'Instagram' },
     { icon: Linkedin, href: '#', label: 'LinkedIn' },
   ];
-
-  const footerLinks = {
-    company: [
-      { name: 'À Propos', href: '#about' },
-      { name: 'Nos Services', href: '#services' },
-      { name: 'Propriétés', href: '#properties' },
-      { name: 'Contact', href: '#contact' },
-    ],
-    legal: [
-      { name: 'Politique de Confidentialité', href: '#' },
-      { name: 'Conditions d\'Utilisation', href: '#' },
-      { name: 'Mentions Légales', href: '#' },
-    ],
-  };
 
   return (
     <footer className=" flex flex-col items-center bg-transparent">
@@ -71,9 +103,9 @@ export default function Footer() {
             className="text-center md:text-left"
             style={{ marginBottom: '20px', marginTop: '20px' }}
           >
-            <h3 className="font-bold text-xl mb-6 text-[#d4af37]">Entreprise</h3>
+            <h3 className="font-bold text-xl mb-6 text-[#d4af37]">{t.company}</h3>
             <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
+              {t.links.company.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -95,9 +127,9 @@ export default function Footer() {
             className="text-center md:text-left"
             style={{ marginBottom: '20px', marginTop: '20px' }}
           >
-            <h3 className="font-bold text-xl mb-6 text-[#d4af37]">Légal</h3>
+            <h3 className="font-bold text-xl mb-6 text-[#d4af37]">{t.legal}</h3>
             <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
+              {t.links.legal.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -119,7 +151,7 @@ export default function Footer() {
             className="text-center md:text-left"
             style={{ marginBottom: '20px', marginTop: '20px' }}
           >
-            <h3 className="font-bold text-xl mb-6 text-[#d4af37]">Suivez-Nous</h3>
+            <h3 className="font-bold text-xl mb-6 text-[#d4af37]">{t.followUs}</h3>
             <div className="flex justify-center md:justify-start space-x-4">
               {socialLinks.map((social) => (
                 <motion.a
@@ -146,7 +178,7 @@ export default function Footer() {
           
         >
           <p className="text-gray-300 text-sm md:text-base">
-            &copy; {currentYear} Solutions Of Africa Développement. Tous droits réservés.
+            &copy; {currentYear} Solutions Of Africa Développement. {t.rightsReserved}
           </p>
         </motion.div>
       </div>

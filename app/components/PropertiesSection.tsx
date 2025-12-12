@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import PropertyCard from './PropertyCard';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 const properties = [
   {
@@ -151,6 +152,22 @@ const properties = [
 ];
 
 const PropertiesSection = () => {
+  const { language } = useLanguage();
+
+  // Translations
+  const translations = {
+    fr: {
+      title: 'Propriétés en Gérance',
+      description: 'Découvrez nos propriétés en gérance à travers la Côte d\'Ivoire et l\'Afrique. Le nombre et la qualité des biens que nous gérons témoigne de la confiance que nos mandants placent en nous.',
+    },
+    en: {
+      title: 'Managed Properties',
+      description: 'Discover our managed properties across Côte d\'Ivoire and Africa. The number and quality of properties we manage reflects the trust our clients place in us.',
+    },
+  };
+
+  const t = translations[language];
+
   return (
     <section className="py-24 md:py-32 flex flex-col items-center gap-y-14 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center gap-y-10">
@@ -171,7 +188,7 @@ const PropertiesSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-orange-400 mb-6"
           >
-            Propriétés en Gérance
+            {t.title}
           </motion.h2>
           
           <motion.p
@@ -181,8 +198,7 @@ const PropertiesSection = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-base text-white max-w-3xl mx-auto leading-relaxed"
           >
-            Découvrez nos propriétés en gérance à travers la Côte d&apos;Ivoire et l&apos;Afrique.
-           Le nombre  et la qualité des biens que nous gérons témoigne de la confiance que nos mandants placent en nous.
+            {t.description}
           </motion.p>
         </motion.div>
 

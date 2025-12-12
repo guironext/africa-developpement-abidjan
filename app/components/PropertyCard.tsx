@@ -1,10 +1,10 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { Bed, Bath, Square, MapPin, ArrowRight, Heart, Images } from 'lucide-react';
 import { useState } from 'react';
 import ImageSlideshowDialog from './ImageSlideshowDialog';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 interface Property {
   id: number;
@@ -29,8 +29,48 @@ interface PropertyCardProps {
 export default function PropertyCard({ property, index }: PropertyCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isSlideshowOpen, setIsSlideshowOpen] = useState(false);
+  const { language } = useLanguage();
   
   const hasImages = property.picIn && property.picIn.length > 0;
+
+  // Translations
+  const translations = {
+    fr: {
+      gallery: 'Galerie',
+      propertyTypes: {
+        'Appartement': 'Appartement',
+        'Maison': 'Maison',
+        'Villa': 'Villa',
+        'Duplex': 'Duplex',
+        'Penthouse': 'Penthouse',
+        'Studio': 'Studio',
+        'Loft': 'Loft',
+        'Immeuble': 'Immeuble',
+        'Building': 'Immeuble',
+        'House': 'Maison',
+      },
+    },
+    en: {
+      gallery: 'Gallery',
+      propertyTypes: {
+        'Appartement': 'Apartment',
+        'Maison': 'House',
+        'Villa': 'Villa',
+        'Duplex': 'Duplex',
+        'Penthouse': 'Penthouse',
+        'Studio': 'Studio',
+        'Loft': 'Loft',
+        'Immeuble': 'Building',
+        'Building': 'Building',
+        'House': 'House',
+      },
+    },
+  };
+
+  const t = translations[language];
+  
+  // Translate property type
+  const translatedType = t.propertyTypes[property.type as keyof typeof t.propertyTypes] || property.type;
 
   return (
     <motion.div
@@ -58,7 +98,7 @@ export default function PropertyCard({ property, index }: PropertyCardProps) {
           className="absolute top-5 left-5 text-[#1a4d3e] rounded-full text-sm font-bold shadow-lg backdrop-blur-sm"
           style={{ background: 'linear-gradient(to right, #d4af37, #f4d03f)', padding: '8px 16px' }}
         >
-          {property.type}
+          {translatedType}
         </motion.div>
 
         {/* Favorite Button */}
@@ -136,7 +176,7 @@ export default function PropertyCard({ property, index }: PropertyCardProps) {
                 style={{ cursor: 'pointer', transition: 'all 0.3s ease', padding: '10px' }}
               >
                 <Images size={18} />
-                <span className="text-sm font-medium">Galerie</span>
+                <span className="text-sm font-medium">{t.gallery}</span>
               </motion.button>
             )}
           </div>
