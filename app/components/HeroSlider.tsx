@@ -1,47 +1,113 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, startTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Search, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
-const slides = [
-  {
-    id: 1,
-    title: 'Nous concretisons votre Rêve Immobilier en Afrique',
-    subtitle: 'Découvrez des propriétés d\'exception',
-    description: 'Des villas de luxe aux appartements modernes, trouvez la propriété parfaite',
-    cta: 'Explorer les Propriétés',
+const slides = {
+  fr: [
+    {
+      id: 1,
+      title: 'Nous concretisons votre Rêve Immobilier en Afrique',
+      subtitle: 'Découvrez des propriétés d\'exception',
+      description: 'Des villas de luxe aux appartements modernes, trouvez la propriété parfaite',
+      cta: 'Explorer les Propriétés',
+    },
+    {
+      id: 2,
+      title: 'Faites des Investissements Immobiliers Intelligents',
+      subtitle: 'Croissance et Opportunités',
+      description: 'Investissez dans l\'immobilier africain avec des rendements exceptionnels',
+      cta: 'En Savoir Plus',
+    },
+    {
+      id: 3,
+      title: 'Expertise et Confiance dans le Marché Immobilier Africain',
+      subtitle: 'Votre Partenaire Immobilier',
+      description: 'Plus de 10 ans d\'expérience dans le marché immobilier africain',
+      cta: 'Nous Contacter',
+    },
+  ],
+  en: [
+    {
+      id: 1,
+      title: 'We Make Your Real Estate Dream in Africa Come True',
+      subtitle: 'Discover Exceptional Properties',
+      description: 'From luxury villas to modern apartments, find the perfect property',
+      cta: 'Explore Properties',
+    },
+    {
+      id: 2,
+      title: 'Make Smart Real Estate Investments',
+      subtitle: 'Growth and Opportunities',
+      description: 'Invest in African real estate with exceptional returns',
+      cta: 'Learn More',
+    },
+    {
+      id: 3,
+      title: 'Expertise and Trust in the African Real Estate Market',
+      subtitle: 'Your Real Estate Partner',
+      description: 'Over 10 years of experience in the African real estate market',
+      cta: 'Contact Us',
+    },
+  ],
+};
+
+const translations = {
+  fr: {
+    searchPlaceholder: 'Rechercher une propriété...',
+    selectCity: 'Sélectionner Ville',
+    searchButton: 'Rechercher',
+    cities: {
+      casablanca: 'Casablanca',
+      dakar: 'Dakar',
+      abidjan: 'Abidjan',
+      lagos: 'Lagos',
+    },
   },
-  {
-    id: 2,
-    title: 'Faites des Investissements Immobiliers Intelligents',
-    subtitle: 'Croissance et Opportunités',
-    description: 'Investissez dans l\'immobilier africain avec des rendements exceptionnels',
-    cta: 'En Savoir Plus',
+  en: {
+    searchPlaceholder: 'Search for a property...',
+    selectCity: 'Select City',
+    searchButton: 'Search',
+    cities: {
+      casablanca: 'Casablanca',
+      dakar: 'Dakar',
+      abidjan: 'Abidjan',
+      lagos: 'Lagos',
+    },
   },
-  {
-    id: 3,
-    title: 'Expertise et Confiance dans le Marché Immobilier Africain',
-    subtitle: 'Votre Partenaire Immobilier',
-    description: 'Plus de 10 ans d\'expérience dans le marché immobilier africain',
-    cta: 'Nous Contacter',
-  },
-];
+};
 
 export default function HeroSlider() {
+  const { language } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const prevLanguageRef = useRef(language);
+
+  const currentSlides = slides[language];
+  const t = translations[language];
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (!isAnimating) {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
+        setCurrentSlide((prev) => (prev + 1) % currentSlides.length);
       }
     }, 6000);
 
     return () => clearInterval(timer);
-  }, [isAnimating]);
+  }, [isAnimating, currentSlides.length]);
+
+  // Reset to first slide when language changes
+  useEffect(() => {
+    if (prevLanguageRef.current !== language) {
+      prevLanguageRef.current = language;
+      startTransition(() => {
+        setCurrentSlide(0);
+      });
+    }
+  }, [language]);
 
   const goToSlide = (index: number) => {
     if (index === currentSlide || isAnimating) return;
@@ -53,14 +119,14 @@ export default function HeroSlider() {
   const nextSlide = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlide((prev) => (prev + 1) % currentSlides.length);
     setTimeout(() => setIsAnimating(false), 800);
   };
 
   const prevSlide = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentSlide((prev) => (prev - 1 + currentSlides.length) % currentSlides.length);
     setTimeout(() => setIsAnimating(false), 800);
   };
 
@@ -83,9 +149,9 @@ export default function HeroSlider() {
       {/* Content */}
       <div className="relative z-10 h-full flex items-center justify-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-center">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" key={language}>
             <motion.div
-              key={currentSlide}
+              key={`${language}-${currentSlide}`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
@@ -98,7 +164,7 @@ export default function HeroSlider() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight px-2"
               >
-                {slides[currentSlide].title}
+                {currentSlides[currentSlide].title}
               </motion.h1>
 
               <motion.p
@@ -107,7 +173,7 @@ export default function HeroSlider() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-lg md:text-xl font-semibold text-[#d4af37] mb-6 px-2"
               >
-                {slides[currentSlide].subtitle}
+                {currentSlides[currentSlide].subtitle}
               </motion.p>
 
               <motion.p
@@ -116,7 +182,7 @@ export default function HeroSlider() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="text-lg md:text-xl mb-10 text-gray-100 leading-relaxed px-2"
               >
-                {slides[currentSlide].description}
+                {currentSlides[currentSlide].description}
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -130,7 +196,7 @@ export default function HeroSlider() {
                   className="relative flex bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 md:px-16 py-6 md:py-8 rounded-xl text-base md:text-lg transition-all duration-300 w-full max-w-md items-center justify-center gap-2"
                 >
                   <span className="relative z-10">
-                    {slides[currentSlide].cta}
+                    {currentSlides[currentSlide].cta}
                   </span>
                   <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
@@ -140,58 +206,7 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* Search Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="absolute bottom-20 md:bottom-24 left-0 right-0 z-20 flex justify-center px-4 sm:px-6 lg:px-8"
-      >
-        <div className="max-w-6xl w-full">
-          <div className="bg-white/98 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 md:p-8 lg:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-end">
-              {/* Search Input */}
-              <div className="md:col-span-5 px-4" style={{ padding: '10px' }}>
-                <div className="relative flex items-center bg-gray-50/80 hover:bg-gray-50 rounded-xl border border-gray-200/60 focus-within:border-[#1a4d3e]/40 focus-within:ring-2 focus-within:ring-[#1a4d3e]/10 transition-all duration-300 pl-4 pr-4 py-3.5">
-                  <Search className="text-[#1a4d3e] shrink-0 mr-3" size={20} strokeWidth={2.5} />
-                  <input
-                    type="text"
-                    placeholder="Rechercher une propriété..."
-                    className="flex-1 outline-none text-gray-800 placeholder-gray-400 text-base md:text-lg bg-transparent border-0 focus:outline-none h-auto min-w-0 w-full"
-                  />
-                </div>
-              </div>
-
-              {/* Location Select */}
-              <div className="md:col-span-4 "style={{ padding: '10px' }}>
-                <div className="relative flex items-center bg-gray-50/80 hover:bg-gray-50 rounded-xl border border-gray-200/60 focus-within:border-[#1a4d3e]/40 focus-within:ring-2 focus-within:ring-[#1a4d3e]/10 transition-all duration-300 pl-4 pr-4 py-3.5">
-                  <MapPin className="text-[#1a4d3e] shrink-0 mr-3" size={20} strokeWidth={2.5} />
-                  <select 
-                    className="flex-1 outline-none text-gray-800 bg-transparent text-base md:text-lg cursor-pointer appearance-none focus:outline-none border-0 h-auto min-w-0 w-full"
-                  >
-                    <option value="">Sélectionner Ville</option>
-                    <option value="casablanca">Casablanca</option>
-                    <option value="dakar">Dakar</option>
-                    <option value="abidjan">Abidjan</option>
-                    <option value="lagos">Lagos</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Search Button */}
-              <div className="md:col-span-3" style={{ padding: '10px' }}>
-                <Button
-                  type="button"
-                  className="w-full bg-[#1a4d3e] hover:bg-[#2d7a5f] text-white font-semibold px-4 md:px-6 py-3.5 md:py-4 rounded-xl text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] h-auto"
-                >
-                  <Search className="mr-2 w-5 h-5 shrink-0" />
-                  <span className="whitespace-nowrap">Rechercher</span>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
+      
 
       {/* Navigation Arrows */}
       <button
@@ -209,7 +224,7 @@ export default function HeroSlider() {
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex space-x-2">
-        {slides.map((_, index) => (
+        {currentSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}

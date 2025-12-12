@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,9 @@ export default function RootLayout({
         <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(26,77,62,0.15),transparent_50%)] pointer-events-none z-0"></div>
         <div className="fixed inset-0 bg-[linear-gradient(to_bottom_right,rgba(26,77,62,0.1),transparent_50%)] pointer-events-none z-0"></div>
         <div className="relative z-10">
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </div>
       </body>
     </html>
