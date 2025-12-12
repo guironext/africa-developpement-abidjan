@@ -71,7 +71,7 @@ export default function HeroSlider() {
     }, 6000);
 
     return () => clearInterval(timer);
-  }, [isAnimating, currentSlides.length]);
+  }, [isAnimating, currentSlides.length, language]);
 
   // Reset to first slide when language changes
   useEffect(() => {
