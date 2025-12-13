@@ -117,7 +117,7 @@ export default function HeroSlider() {
         >
           <source src="/video.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-linear-to-r from-[#1a4d3e]/60 via-[#1a4d3e]/50 to-transparent" />
+       
       </div>
 
       {/* Content */}

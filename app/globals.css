@@ -168,9 +168,3 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
-/* Override Next.js portal positioning */
-nextjs-portal {
-  left: unset;
-  top: unset;
-}
